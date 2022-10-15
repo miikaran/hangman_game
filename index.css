@@ -1,0 +1,43 @@
+
+.GAME_CONTAINER{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    min-height: 90vh;
+}
+
+#LETTERS{
+    display: grid;
+    grid-template-columns: repeat(13, 60px);
+    margin-top: 5vh;
+}
+
+#LETTERS button{
+    font-size: 2em;
+    background-color: rgb(15, 43, 75);
+    color: white;
+    font-weight: bold;
+    border: 0px;
+    margin: 2px;
+    border-radius: 10%;
+    transition: 0.3s;
+    cursor: pointer;
+    text-transform: uppercase
+}
+
+#LETTERS button:hover{
+    margin: 5px;
+}
+
+
+#WORD{
+    display: flex;
+}
+
+#WORD div{
+    border: 3px solid rgb(49, 49, 49);
+    width: 30px;
+    border-radius: 15%;
+    margin-left: 20px;
+}
