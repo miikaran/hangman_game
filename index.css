@@ -1,3 +1,7 @@
+body{
+    font-family:'Gill Sans MT';
+}
+
 
 .GAME_CONTAINER{
     display: flex;
@@ -11,6 +15,7 @@
     display: grid;
     grid-template-columns: repeat(13, 60px);
     margin-top: 5vh;
+    grid-gap: 5px;
 }
 
 #LETTERS button{
@@ -19,7 +24,6 @@
     color: white;
     font-weight: bold;
     border: 0px;
-    margin: 2px;
     border-radius: 10%;
     transition: 0.3s;
     cursor: pointer;
@@ -33,11 +37,21 @@
 
 #WORD{
     display: flex;
+    text-align: center;
+    font-size: 2em;
+    text-transform: uppercase;
 }
 
 #WORD div{
+    margin-left: 10px;
+}
+
+#WORD div div{
     border: 3px solid rgb(49, 49, 49);
     width: 30px;
     border-radius: 15%;
-    margin-left: 20px;
+}
+
+#WORD div span{
+    display: none;
 }
