@@ -3,10 +3,12 @@ const ALPHABET =  ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', '
 const WORDS = ['jade', 'piki', 'degu', 'tikru'];
 const LETTERS = document.getElementById('LETTERS');
 const WORD = document.getElementById('WORD');
+let LETTER_ID = '';
 let WORD_TO_GUESS = '';
+let WINNING_ARRAY = [];
+let GUESSES = 0;
 
 INITIALIZE_GAME();
-
 
 function INITIALIZE_GAME(){
     GENERATE_WORD();
@@ -41,23 +43,39 @@ function GENERATE_WORD(){
         WORD.appendChild(CHARACTER_CONTAINER);
         CHARACTER_CONTAINER.appendChild(UNDERLINE)
         //Set display to none at the start.
-        console.log(WORD_TO_GUESS)
+        console.log(WORD_TO_GUESS, CHARACTER)
         CHARACTER.style.display = "none"
     })
 }
 
 
 function GUESS_LETTER(LETTER){
-    ID = document.getElementById(LETTER)
+    LETTER_ID = document.querySelectorAll(`#${LETTER}`)
     if(WORD_TO_GUESS.includes(LETTER)){
-      console.log(ID.id)
-      ID.style.display = "block"
+        //Change display to block for all guessed letters.
+        for(let i = 0; i < LETTER_ID.length; i++) {
+            let CURRENT_LETTERS = LETTER_ID[i];
+            CURRENT_LETTERS.style.display = 'block';
+            CHECK_WIN(LETTER)
+        }
     }
 }
 
 
-function CHECK_WIN(){
-
+function CHECK_WIN(LETTERS){
+    WINNING_ARRAY.push(LETTERS)
+    //Check if both arrays include same elements.
+    if(WINNING_ARRAY.length === WORD_TO_GUESS.split('').length){
+        return WINNING_ARRAY.every((element, index) => {
+            if(element == WORD_TO_GUESS[index] || WORD_TO_GUESS.includes(element)){
+                console.log('You won!')
+                return true;
+            }
+            else{
+                console.log('You no win')
+            }
+        })
+    }
 }
 
 
