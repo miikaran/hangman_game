@@ -1,6 +1,7 @@
 body{
     font-family:'Gill Sans MT';
-    background-color: rgb(190, 237, 255);
+    background-color: rgb(7, 7, 7);
+    color: white;
 }
 
 
@@ -11,6 +12,7 @@ body{
     align-items: center;
     min-height: 90vh;
 }
+
 
 #LETTERS{
     display: grid;
@@ -43,12 +45,193 @@ body{
     text-transform: uppercase;
 }
 
+
+#WORD span{
+    font-weight: bold;
+    animation: fadein 0.5s;
+}
+
+@keyframes fadein {
+    from{
+        opacity: 0;
+        transform: rotate(180deg);
+    }
+    to{
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+
 #WORD div{
-    margin-left: 10px;
+    margin: 4px;
 }
 
 #WORD div div{
-    border: 3px solid rgb(49, 49, 49);
+    position: relative;
+    border: 3px solid rgb(205, 255, 201);
     width: 30px;
     border-radius: 15%;
+}
+
+
+#INFO{
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: rgb(160, 255, 160);
+}
+
+.HANGMAN{
+    margin-bottom: 30vh;
+}
+
+.HINT_BUTTON{
+    cursor: pointer;
+    color: black;
+    font-size: 1.3em;
+    font-weight: bold;
+    border-radius: 3%;
+    padding: 20px;
+    background-color: gold;
+    transition: 0.1s ease-in-out;
+}
+
+.HINT:hover{
+    padding: 25px;
+}
+
+/*
+___________________________________________________
+___________________________________________________ 
+            
+                HANGMAN PARTS
+___________________________________________________
+___________________________________________________
+*/
+
+#FIRST{
+    display: none;
+    position: absolute;
+    right: 44vw;
+    bottom: 65.7vh;
+    border: 4px solid rgb(118, 204, 48);
+    width: 250px;
+}
+
+#SECOND{
+    display: none;
+    position: absolute;
+    bottom: 66.5vh;
+    right: 54.3vw;
+    transform: rotate(0deg);
+    border: 5px solid rgb(105, 104, 104);
+    width: 40px;
+}
+
+#THIRD{
+    display: none;
+    position: absolute;
+    bottom: 78.1vh;
+    right: 50vw;
+    transform: rotate(90deg);
+    border: 5px solid rgb(189, 127, 86);
+    width: 208px;
+}
+
+#FOURTH{
+    display: none;
+    position: absolute;
+    bottom: 86vh;
+    right: 47.5vw;
+    border: 5px solid rgb(189, 132, 94);
+    width: 150px;
+}
+
+#FIFTH{
+    display: none;
+    position: absolute;
+    bottom: 84vh;
+    right: 52.9vw;
+    transform: rotate(145deg);
+    border: 5px solid rgb(189, 132, 94);
+    width: 50px;
+}
+
+
+#SIXTH{
+    display: none;
+    position: absolute;
+    bottom: 84vh;
+    right: 52.9vw;
+    transform: rotate(145deg);
+    border: 5px solid rgb(189, 132, 94);
+    width: 50px;
+}
+
+#SEVENTH{
+    display: none;
+    position: absolute;
+    bottom: 82.5vh;
+    right: 47vw;
+    transform: rotate(90deg);
+    border: 2px solid rgb(184, 171, 163);
+    width: 60px;
+}
+
+#EIGHT{
+    display: none;
+    position: absolute;
+    bottom: 75.9vh;
+    right: 47.9vw;
+    font-size: 2em;
+}
+
+#NINTH{
+    display: none;
+    position: absolute;
+    bottom: 74.5vh;
+    right: 47.4vw;
+    transform: rotate(90deg);
+    border: 2px solid rgb(255, 254, 253);
+    width: 40px;
+}
+
+
+#TENTH{
+    display: none;
+    position: absolute;
+    bottom: 76vh;
+    right: 47.4vw;
+    transform: rotate(40deg);
+    border: 2px solid rgb(255, 254, 253);
+    width: 20px;
+}
+
+#ELEVENTH{
+    display: none;
+    position: absolute;
+    bottom: 76vh;
+    right: 48.4vw;
+    transform: rotate(-40deg);
+    border: 2px solid rgb(255, 254, 253);
+    width: 20px;
+}
+
+#TWELTH{
+    display: none;
+    position: absolute;
+    bottom: 71.7vh;
+    right: 47.4vw;
+    transform: rotate(40deg);
+    border: 2px solid rgb(255, 254, 253);
+    width: 20px;
+}
+
+#THIRTEENTH{
+    display: none;
+    position: absolute;
+    bottom: 71.7vh;
+    right: 48.4vw;
+    transform: rotate(-40deg);
+    border: 2px solid rgb(255, 254, 253);
+    width: 20px;
 }
