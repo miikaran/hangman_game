@@ -19,11 +19,14 @@ const LETTERS = document.getElementById('LETTERS');
 const WORD = document.getElementById('WORD');
 const INFO = document.getElementById('INFO');
 const HINT_BUTTON = document.getElementById('HINT_BUTTON');
+const GUESSES_LEFT = document.getElementById('GUESSES_LEFT')
 let LETTER_ID = '';
 let WORD_TO_GUESS = '';
 let WINNING_ARRAY = [];
 let GUESSES = 0;
 let GAME_ON = false;
+let HINT = '';
+let GUESSES_AMOUNT = 14;
 
 INITIALIZE_GAME();
 
@@ -31,6 +34,7 @@ function INITIALIZE_GAME(){
     GAME_ON = true;
     GENERATE_WORD();
     DISPLAY_LETTERS();
+    YOUR_GUESSES();
 }
 
 
@@ -41,6 +45,7 @@ function DISPLAY_LETTERS(){
         LETTERS.appendChild(BUTTON);
         BUTTON.addEventListener('click', () => {
             GUESS_LETTER(LETTER);
+            YOUR_GUESSES();
         });
     })
 }
@@ -70,6 +75,19 @@ function GENERATE_WORD(){
 }
 
 
+function YOUR_GUESSES(){
+    if(GAME_ON){
+        let RGB_BRIGTHNESS = 255;
+        //Text increases to more redish each time you make a wrong guess.
+        for(let i = 0; i < GUESSES; i++){
+            RGB_BRIGTHNESS -= 20;
+            GUESSES_LEFT.style.color = `rgb(255, ${RGB_BRIGTHNESS}, ${RGB_BRIGTHNESS})`
+        }
+        GUESSES_LEFT.textContent = `GUESSES LEFT: ${GUESSES_AMOUNT}`
+    }
+}
+
+
 function GUESS_LETTER(LETTER){
     if(GAME_ON){
         LETTER_ID = document.querySelectorAll(`#${LETTER}`)
@@ -77,12 +95,16 @@ function GUESS_LETTER(LETTER){
             //Change display to block for all guessed letters.
             for(let i = 0; i < LETTER_ID.length; i++) {
                 let CURRENT_LETTERS = LETTER_ID[i];
-                CURRENT_LETTERS.style.display = 'block';
-                CHECK_WIN(LETTER)
+                //Check that guessed letter isn't already guessed.
+                if(CURRENT_LETTERS.style.display !== 'block'){
+                    CURRENT_LETTERS.style.display = 'block';
+                    CHECK_WIN(LETTER);
+                }
             }
         }
         else{
             GUESSES += 1;
+            GUESSES_AMOUNT -= 1;
             //Display new hangman part.
             const HANGMAN_PART = document.getElementById(HANGMAN_PARTS_IDS[GUESSES - 1]);
             if(HANGMAN_PART == null){
@@ -106,13 +128,13 @@ function CHECK_WIN(LETTERS){
         WINNING_ARRAY.push(LETTERS)
         //Check if both arrays include same elements.
         if(WINNING_ARRAY.length === WORD_TO_GUESS.split('').length){
+            GAME_ON = false;
             return WINNING_ARRAY.every((element, index) => {
-                GAME_ON = false;
                 if(element == WORD_TO_GUESS[index] || WORD_TO_GUESS.includes(element)){
-                    INFO.textContent = "You won!"
+                    INFO.textContent = `You won with ${GUESSES} wrong guesses!`
                 }
                 else{
-                    console.log('You no win')
+                    INFO.textContent = "You no win :("
                 }
             })
         }
@@ -122,7 +144,9 @@ function CHECK_WIN(LETTERS){
 
 function GET_HINT(){
     if(GAME_ON == true){
-        
+        RANDOM_LETTER = Math.floor(Math.random() * WORD_TO_GUESS.length);
+        HINT = WORD_TO_GUESS[RANDOM_LETTER];
+        GUESS_LETTER(HINT);
     }
 }
 
