@@ -38,6 +38,13 @@ function INITIALIZE_GAME(){
 }
 
 
+
+function GET_RANDOM_WORDS(){
+
+}
+
+
+
 function DISPLAY_LETTERS(){
     ALPHABET.forEach((LETTER) => {
         const BUTTON = document.createElement('BUTTON');
