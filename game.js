@@ -11,11 +11,13 @@ const HANGMAN_PARTS_IDS = [
     "TENTH", "ELEVENTH", "TWELTH", 
     "THIRTEENTH"
 ]
+const GAME_CONTAINER = document.getElementById('GAME_CONTAINER');
+const CHOOSE_DIFFICULTIES = document.getElementById('DIFFICULTIES');
 const LETTERS = document.getElementById('LETTERS');
 const WORD = document.getElementById('WORD');
 const INFO = document.getElementById('INFO');
 const HINT_BUTTON = document.getElementById('HINT_BUTTON');
-const GUESSES_LEFT = document.getElementById('GUESSES_LEFT')
+const GUESSES_LEFT = document.getElementById('GUESSES_LEFT');
 let WORDS = [];
 let LETTER_ID = '';
 let WORD_TO_GUESS = '';
@@ -23,9 +25,40 @@ let WINNING_ARRAY = [];
 let GUESSES = 0;
 let GAME_ON = false;
 let HINT = '';
+let HINTS_LEFT = 5;
 let GUESSES_AMOUNT = 14;
+let DIFFICULTIES = ['EASY', 'MEDIUM', 'HARD', 'EXTREME'];
+let DIFFICULTY = '';
 
-INITIALIZE_GAME();
+CHOOSE_DIFFICULTY();
+
+function CHOOSE_DIFFICULTY(){
+    DIFFICULTIES.forEach((LEVEL) => {
+        const BUTTON = document.createElement('BUTTON');
+        BUTTON.textContent = LEVEL;
+        CHOOSE_DIFFICULTIES.appendChild(BUTTON);
+        BUTTON.addEventListener('click', () => {  
+            DIFFICULTY = BUTTON.textContent;
+            if(DIFFICULTY == 'EASY'){
+                DIFFICULTY = 4;
+            }
+            else if(DIFFICULTY == 'MEDIUM'){
+                DIFFICULTY = 6;
+            }
+            else if(DIFFICULTY == 'HARD'){
+                DIFFICULTY = 8;
+            }
+            else if(DIFFICULTY == 'EXTREME'){
+                DIFFICULTY = 10;
+            }
+            if(DIFFICULTY !== ''){
+                INITIALIZE_GAME();
+                CHOOSE_DIFFICULTIES.style.display = 'none';
+            }
+        })
+    })
+}
+
 
 async function INITIALIZE_GAME(){
     GAME_ON = true;
@@ -38,47 +71,52 @@ async function INITIALIZE_GAME(){
 
 
 async function GET_RANDOM_WORDS(){
-    const RESPONSE = await fetch('https://random-word-api.herokuapp.com/word?number=5')
-    WORDS = await RESPONSE.json()
-    console.log(WORDS)  
+    if(GAME_ON){
+        const RESPONSE = await fetch(`https://random-word-api.herokuapp.com/word?length=${DIFFICULTY}`)
+        WORDS = await RESPONSE.json()
+    }
 }
 
 
-
 function DISPLAY_LETTERS(){
-    ALPHABET.forEach((LETTER) => {
-        const BUTTON = document.createElement('BUTTON');
-        BUTTON.textContent = LETTER;
-        LETTERS.appendChild(BUTTON);
-        BUTTON.addEventListener('click', () => {
-            GUESS_LETTER(LETTER);
-            YOUR_GUESSES();
-        });
-    })
+    if(GAME_ON){
+        ALPHABET.forEach((LETTER) => {
+            const BUTTON = document.createElement('BUTTON');
+            BUTTON.textContent = LETTER;
+            LETTERS.appendChild(BUTTON);
+            BUTTON.addEventListener('click', () => {
+                GUESS_LETTER(LETTER);
+                YOUR_GUESSES();
+            });
+        })
+    }
 }
 
 
 function GENERATE_WORD(){
-    const RANDOM = Math.floor(Math.random() * WORDS.length);
-    WORD_TO_GUESS = WORDS[RANDOM];
-    const WORD_TO_LETTERS = WORD_TO_GUESS.split('');
-    //For each letter create new elements.
-    WORD_TO_LETTERS.forEach((LETTER) => {
-        const CHARACTER_CONTAINER = document.createElement('div');
-        const CHARACTER = document.createElement('span');
-        const UNDERLINE = document.createElement('div')
-        CHARACTER.textContent = LETTER;
-        CHARACTER.setAttribute("id", LETTER)
-        CHARACTER_CONTAINER.appendChild(CHARACTER);
-        WORD.appendChild(CHARACTER_CONTAINER);
-        CHARACTER_CONTAINER.appendChild(UNDERLINE)
-        //Set display to none at the start.
-        console.log(WORD_TO_GUESS, CHARACTER)
-        CHARACTER.style.display = "none"
-    })
-    HINT_BUTTON.addEventListener('click', () => {
-        GET_HINT();
-    })
+    if(GAME_ON){
+        const RANDOM = Math.floor(Math.random() * WORDS.length);
+        WORD_TO_GUESS = WORDS[RANDOM];
+        const WORD_TO_LETTERS = WORD_TO_GUESS.split('');
+        //For each letter create new elements.
+        WORD_TO_LETTERS.forEach((LETTER) => {
+            const CHARACTER_CONTAINER = document.createElement('div');
+            const CHARACTER = document.createElement('span');
+            const UNDERLINE = document.createElement('div')
+            CHARACTER.textContent = LETTER;
+            CHARACTER.setAttribute("id", LETTER)
+            CHARACTER_CONTAINER.appendChild(CHARACTER);
+            WORD.appendChild(CHARACTER_CONTAINER);
+            CHARACTER_CONTAINER.appendChild(UNDERLINE)
+            //Set display to none at the start.
+            console.log(WORD_TO_GUESS, CHARACTER)
+            CHARACTER.style.display = "none"
+        })
+        HINT_BUTTON.textContent = `GET HINT. ${HINTS_LEFT} LEFT `
+        HINT_BUTTON.addEventListener('click', () => {
+            GET_HINT();
+        })
+    }
 }
 
 
@@ -117,7 +155,7 @@ function GUESS_LETTER(LETTER){
             if(HANGMAN_PART == null){
                 GAME_ON = false;
                 INFO.style.color = 'red';
-                INFO.textContent = "You lost!"
+                INFO.textContent = `You lost! The word was ${WORD_TO_GUESS}`
             }
             else{
                 HANGMAN_PART.style.display = 'block';
@@ -141,7 +179,7 @@ function CHECK_WIN(LETTERS){
                     INFO.textContent = `You won with ${GUESSES} wrong guesses!`
                 }
                 else{
-                    INFO.textContent = "You no win :("
+                    INFO.textContent = `You lost! The word was ${WORD_TO_GUESS}`
                 }
             })
         }
@@ -150,7 +188,9 @@ function CHECK_WIN(LETTERS){
 
 
 function GET_HINT(){
-    if(GAME_ON == true){
+    if(GAME_ON == true && HINTS_LEFT > 0){
+        HINTS_LEFT -= 1;
+        HINT_BUTTON.textContent = `GET HINT. ${HINTS_LEFT} LEFT `
         RANDOM_LETTER = Math.floor(Math.random() * WORD_TO_GUESS.length);
         HINT = WORD_TO_GUESS[RANDOM_LETTER];
         GUESS_LETTER(HINT);

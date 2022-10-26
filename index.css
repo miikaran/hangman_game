@@ -10,7 +10,13 @@ body{
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    min-height: 90vh;
+    min-height: 80vh;
+}
+
+
+@keyframes SLIDE_IN{
+    from {opacity: 0; }
+    to {opacity: 1; }
 }
 
 
@@ -106,6 +112,13 @@ body{
 #GUESSES_LEFT{
     font-size: 0.5em;
     color: white;
+}
+
+#DIFFICULTIES button{
+    color: white;
+    background-color: rgb(20, 57, 112);
+    padding: 20px;
+    font-weight: bold;
 }
 
 /*
