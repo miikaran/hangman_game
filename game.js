@@ -11,15 +11,12 @@ const HANGMAN_PARTS_IDS = [
     "TENTH", "ELEVENTH", "TWELTH", 
     "THIRTEENTH"
 ]
-const WORDS = [
-    'jade', 'piki', 
-    'degu', 'tikru'
-];
 const LETTERS = document.getElementById('LETTERS');
 const WORD = document.getElementById('WORD');
 const INFO = document.getElementById('INFO');
 const HINT_BUTTON = document.getElementById('HINT_BUTTON');
 const GUESSES_LEFT = document.getElementById('GUESSES_LEFT')
+let WORDS = [];
 let LETTER_ID = '';
 let WORD_TO_GUESS = '';
 let WINNING_ARRAY = [];
@@ -30,8 +27,9 @@ let GUESSES_AMOUNT = 14;
 
 INITIALIZE_GAME();
 
-function INITIALIZE_GAME(){
+async function INITIALIZE_GAME(){
     GAME_ON = true;
+    await GET_RANDOM_WORDS();
     GENERATE_WORD();
     DISPLAY_LETTERS();
     YOUR_GUESSES();
@@ -39,8 +37,10 @@ function INITIALIZE_GAME(){
 
 
 
-function GET_RANDOM_WORDS(){
-
+async function GET_RANDOM_WORDS(){
+    const RESPONSE = await fetch('https://random-word-api.herokuapp.com/word?number=5')
+    WORDS = await RESPONSE.json()
+    console.log(WORDS)  
 }
 
 
