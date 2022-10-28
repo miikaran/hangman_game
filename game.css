@@ -1,0 +1,136 @@
+body{
+    font-family:'Gill Sans MT';
+    background-color: rgb(7, 7, 7);
+    color: white;
+}
+
+
+.GAME_CONTAINER{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    min-height: 80vh;
+}
+
+
+@keyframes SLIDE_IN{
+    from {opacity: 0; }
+    to {opacity: 1; }
+}
+
+
+#LETTERS{
+    display: grid;
+    grid-template-columns: repeat(13, 60px);
+    margin-top: 5vh;
+    grid-gap: 5px;
+}
+
+#LETTERS button{
+    font-size: 2em;
+    background-color: rgb(15, 43, 75);
+    color: white;
+    border: 0px;
+    border-radius: 3%;
+    transition: 0.1s;
+    cursor: pointer;
+    text-transform: uppercase
+}
+
+#LETTERS button:hover{
+    margin: 5px;
+}
+
+
+#WORD{
+    display: flex;
+    text-align: center;
+    font-size: 2.5em;
+    text-transform: uppercase;
+}
+
+
+#WORD span{
+    animation: fadein 0.5s;
+}
+
+@keyframes fadein {
+    from{
+        opacity: 0;
+        transform: rotate(180deg);
+    }
+    to{
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+
+#WORD div{
+    margin: 4px;
+}
+
+#WORD div div{
+    position: relative;
+    border: 3px solid rgb(138, 138, 138);
+    width: 50px;
+    border-radius: 15%;
+}
+
+
+#INFO{
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: rgb(160, 255, 160);
+}
+
+.HANGMAN{
+    margin-bottom: 30vh;
+}
+
+.HINT_BUTTON{
+    cursor: pointer;
+    color: black;
+    font-size: 1em;
+    font-weight: bold;
+    border-radius: 3%;
+    padding: 15px;
+    background-color: gold;
+    transition: 0.1s ease-in-out;
+}
+
+.HINT_BUTTON:hover{
+    padding: 20px;
+}
+
+
+.HINT{
+    font-size: 1.5em;
+    
+}
+
+
+.HINTS_STATUS{
+    font-size: 1.5em;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+}
+
+#GUESSES_LEFT{
+    font-size: 0.5em;
+    color: white;
+}
+
+#DIFFICULTIES button{
+    color: white;
+    background-color: rgb(20, 57, 112);
+    padding: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+}
+
+#DIFFICULTIES button:hover{
+    padding: 15px;
+}

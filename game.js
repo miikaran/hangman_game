@@ -12,7 +12,6 @@ const HANGMAN_PARTS_IDS = [
     "THIRTEENTH"
 ]
 const GAME_CONTAINER = document.getElementById('GAME_CONTAINER');
-const CHOOSE_DIFFICULTIES = document.getElementById('DIFFICULTIES');
 const LETTERS = document.getElementById('LETTERS');
 const WORD = document.getElementById('WORD');
 const INFO = document.getElementById('INFO');
@@ -27,37 +26,6 @@ let GAME_ON = false;
 let HINT = '';
 let HINTS_LEFT = 5;
 let GUESSES_AMOUNT = 14;
-let DIFFICULTIES = ['EASY', 'MEDIUM', 'HARD', 'EXTREME'];
-let DIFFICULTY = '';
-
-CHOOSE_DIFFICULTY();
-
-function CHOOSE_DIFFICULTY(){
-    DIFFICULTIES.forEach((LEVEL) => {
-        const BUTTON = document.createElement('BUTTON');
-        BUTTON.textContent = LEVEL;
-        CHOOSE_DIFFICULTIES.appendChild(BUTTON);
-        BUTTON.addEventListener('click', () => {  
-            DIFFICULTY = BUTTON.textContent;
-            if(DIFFICULTY == 'EASY'){
-                DIFFICULTY = 4;
-            }
-            else if(DIFFICULTY == 'MEDIUM'){
-                DIFFICULTY = 6;
-            }
-            else if(DIFFICULTY == 'HARD'){
-                DIFFICULTY = 8;
-            }
-            else if(DIFFICULTY == 'EXTREME'){
-                DIFFICULTY = 10;
-            }
-            if(DIFFICULTY !== ''){
-                INITIALIZE_GAME();
-                CHOOSE_DIFFICULTIES.style.display = 'none';
-            }
-        })
-    })
-}
 
 
 async function INITIALIZE_GAME(){
@@ -66,12 +34,16 @@ async function INITIALIZE_GAME(){
     GENERATE_WORD();
     DISPLAY_LETTERS();
     YOUR_GUESSES();
+    HINT_BUTTON.textContent = `GET HINT. ${HINTS_LEFT} LEFT `
+    HINT_BUTTON.addEventListener('click', () => {
+        GET_HINT();
+    })
 }
-
 
 
 async function GET_RANDOM_WORDS(){
     if(GAME_ON){
+        //Get random words based on the difficulty.
         const RESPONSE = await fetch(`https://random-word-api.herokuapp.com/word?length=${DIFFICULTY}`)
         WORDS = await RESPONSE.json()
     }
@@ -111,10 +83,6 @@ function GENERATE_WORD(){
             //Set display to none at the start.
             console.log(WORD_TO_GUESS, CHARACTER)
             CHARACTER.style.display = "none"
-        })
-        HINT_BUTTON.textContent = `GET HINT. ${HINTS_LEFT} LEFT `
-        HINT_BUTTON.addEventListener('click', () => {
-            GET_HINT();
         })
     }
 }
@@ -191,9 +159,25 @@ function GET_HINT(){
     if(GAME_ON == true && HINTS_LEFT > 0){
         HINTS_LEFT -= 1;
         HINT_BUTTON.textContent = `GET HINT. ${HINTS_LEFT} LEFT `
-        RANDOM_LETTER = Math.floor(Math.random() * WORD_TO_GUESS.length);
-        HINT = WORD_TO_GUESS[RANDOM_LETTER];
-        GUESS_LETTER(HINT);
+        //Function expression to generate hints. 
+        //Makes it easier to use under specific conditions.
+        GENERATE_HINT = function(){
+            RANDOM_LETTER = Math.floor(Math.random() * WORD_TO_GUESS.length);
+            return RANDOM_LETTER;
+        }
+        HINT = WORD_TO_GUESS[GENERATE_HINT()];
+        //Check if hint is already guessed &
+        //Generate new one until it's not.
+        if(WINNING_ARRAY.includes(HINT)){
+            while(WINNING_ARRAY.includes(HINT)){
+                GENERATE_HINT();
+                HINT = WORD_TO_GUESS[GENERATE_HINT()];
+                if(!WINNING_ARRAY.includes(HINT)){
+                    break;
+                }
+            }
+        }
+        GUESS_LETTER(HINT);   
     }
 }
 
