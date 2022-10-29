@@ -16,7 +16,9 @@ const LETTERS = document.getElementById('LETTERS');
 const WORD = document.getElementById('WORD');
 const INFO = document.getElementById('INFO');
 const HINT_BUTTON = document.getElementById('HINT_BUTTON');
+const DEFINITION_BUTTON = document.getElementById('DEFINITION_BUTTON');
 const GUESSES_LEFT = document.getElementById('GUESSES_LEFT');
+const DEFINITION_CONTAINER = document.getElementById('DEFINITION_CONTAINER');
 let WORDS = [];
 let LETTER_ID = '';
 let WORD_TO_GUESS = '';
@@ -34,10 +36,6 @@ async function INITIALIZE_GAME(){
     GENERATE_WORD();
     DISPLAY_LETTERS();
     YOUR_GUESSES();
-    HINT_BUTTON.textContent = `GET HINT. ${HINTS_LEFT} LEFT `
-    HINT_BUTTON.addEventListener('click', () => {
-        GET_HINT();
-    })
 }
 
 
@@ -83,6 +81,19 @@ function GENERATE_WORD(){
             //Set display to none at the start.
             console.log(WORD_TO_GUESS, CHARACTER)
             CHARACTER.style.display = "none"
+        })
+        //Setup EventListeners & styles for hints/definitions.
+        HINT_BUTTON.style.display = 'block'
+        HINT_BUTTON.textContent = `GET HINT. ${HINTS_LEFT} LEFT `
+        if(HINTS_LEFT >= 3){
+            DEFINITION_BUTTON.style.display = 'block';
+            DEFINITION_BUTTON.textContent = 'GET DEFINITION OF THE WORD (COST 3 HINTS)'
+            DEFINITION_BUTTON.addEventListener('click', () => {
+                GET_DEFINITION(WORD_TO_GUESS)
+            })
+        }
+        HINT_BUTTON.addEventListener('click', () => {
+            GET_HINT();
         })
     }
 }
@@ -156,7 +167,7 @@ function CHECK_WIN(LETTERS){
 
 
 function GET_HINT(){
-    if(GAME_ON == true && HINTS_LEFT > 0){
+    if(GAME_ON == true && HINTS_LEFT > 0){     
         HINTS_LEFT -= 1;
         HINT_BUTTON.textContent = `GET HINT. ${HINTS_LEFT} LEFT `
         //Function expression to generate hints. 
@@ -176,8 +187,32 @@ function GET_HINT(){
                     break;
                 }
             }
-        }
+        }      
         GUESS_LETTER(HINT);   
+    }
+}
+
+
+async function GET_DEFINITION(WORD){
+    HINTS_LEFT -= 3;
+    HINT_BUTTON.textContent = `GET HINT. ${HINTS_LEFT} LEFT `
+    try{
+        //Get definition of the word for 3 hints.
+        const RESPONSE = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${WORD}`);
+        const DATA = await RESPONSE.json();
+        const DEFINITION = DATA[0].meanings[0].definitions.map((DEF) => {
+            return(
+                `
+                <div>
+                    <p>${DEF.definition}</p>
+                </div>
+                `
+            )
+        })
+        DEFINITION_CONTAINER.innerHTML = DEFINITION;  
+    }
+    catch{
+        DEFINITION_CONTAINER.textContent = 'No definition for this word.';
     }
 }
 

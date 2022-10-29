@@ -1,6 +1,6 @@
 body{
     font-family:'Gill Sans MT';
-    background-color: rgb(7, 7, 7);
+    background-color: rgb(8, 8, 8);
     color: white;
 }
 
@@ -125,7 +125,9 @@ body{
 #DIFFICULTIES button{
     color: white;
     background-color: rgb(20, 57, 112);
-    padding: 20px;
+    padding: 30px;
+    font-size: 1.5em;
+    border-radius: 5%;
     font-weight: bold;
     cursor: pointer;
     transition: 0.1s ease-in-out;
@@ -134,3 +136,4 @@ body{
 #DIFFICULTIES button:hover{
     padding: 15px;
 }
+
