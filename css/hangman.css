@@ -8,6 +8,11 @@
   
 */
 
+.HANGMAN{
+    margin-bottom: 40vh;
+}
+
+
 #FIRST{
     display: none;
     position: absolute;
@@ -60,11 +65,11 @@
 #SIXTH{
     display: none;
     position: absolute;
-    bottom: 84vh;
-    right: 52.9vw;
-    transform: rotate(145deg);
-    border: 5px solid rgb(189, 132, 94);
-    width: 50px;
+    bottom: 83.6vh;
+    right: 47.65vw;
+    transform: rotate(90deg);
+    border: 4px solid rgb(189, 132, 94);
+    width: 30px;
 }
 
 #SEVENTH{

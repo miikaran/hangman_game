@@ -32,7 +32,6 @@ body{
     background-color: rgb(15, 43, 75);
     color: white;
     border: 0px;
-    border-radius: 3%;
     transition: 0.1s;
     cursor: pointer;
     text-transform: uppercase
@@ -84,9 +83,6 @@ body{
     color: rgb(160, 255, 160);
 }
 
-.HANGMAN{
-    margin-bottom: 30vh;
-}
 
 .HINT_BUTTON{
     cursor: pointer;
