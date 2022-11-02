@@ -209,7 +209,7 @@
 
 
     async function GET_DEFINITION(WORD){
-        if(GAME_ON == true && HINTS_LEFT > 0){
+        if(GAME_ON == true && HINTS_LEFT > 0 && HINTS_LEFT > 2){
             HINTS_LEFT -= 3;
             HINT_BUTTON.textContent = `GET HINT. ${HINTS_LEFT} LEFT `
             try{
