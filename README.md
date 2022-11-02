@@ -3,7 +3,7 @@
 Hangman game with a graphical UI & some extra features.
 
 ### Extra features
-- Choose difficulty.
+- Choose difficulty. (Affects word length & available hints.)
 - Random words from external API <a href="http://random-word-api.herokuapp.com/home"> (Random Words API) </a>.
 - Get hints.
 - Reveal definition of the word for the cost of 3 hints. Used <a href="https://dictionaryapi.dev/">Free Dictionary API</a> to get the definitions.
